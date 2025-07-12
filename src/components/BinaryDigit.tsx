@@ -11,21 +11,21 @@ const BinaryDigit = ({ value }: BinaryDigitProps) => {
   const binaryArray = binaryString.split('').map(bit => bit === '1');
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex gap-2">
       {binaryArray.map((isOne, index) => (
         <div
           key={index}
           className={`
-            w-12 h-12 md:w-16 md:h-16 flex items-center justify-center
+            w-16 h-16 md:w-20 md:h-20 flex items-center justify-center
             text-2xl md:text-3xl font-mono font-bold rounded-lg
-            transition-all duration-300 transform hover:scale-105
+            transition-all duration-300
             ${isOne 
-              ? 'text-red-500 bg-red-500/10 border border-red-500/30 shadow-lg shadow-red-500/20' 
-              : 'text-gray-600 bg-gray-800/30 border border-gray-700/50'
+              ? 'text-red-500 bg-red-500/20 border-2 border-red-500 animate-pulse' 
+              : 'text-gray-500 bg-gray-900/50 border-2 border-gray-700'
             }
           `}
         >
-          {isOne ? '1' : '0'}
+          {8 >> index}
         </div>
       ))}
     </div>
