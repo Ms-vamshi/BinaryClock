@@ -19,13 +19,14 @@ const BinaryDigit = ({ value, isMinute = false }: BinaryDigitProps) => {
           <div
             key={index}
             className={`
-              text-6xl md:text-7xl font-mono font-bold
+              text-6xl md:text-7xl font-bold
               transition-all duration-300
               ${isActive 
                 ? 'text-red-500' 
                 : 'text-gray-700'
               }
             `}
+            style={{fontFamily: 'Courier New, monospace'}}
           >
             {bitValue}
           </div>
