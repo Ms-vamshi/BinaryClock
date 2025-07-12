@@ -14,17 +14,25 @@ const BinaryClock = () => {
   }, []);
 
   const formatTime = (time: Date) => {
-    const hours = time.getHours();
+    let hours = time.getHours();
     const minutes = time.getMinutes();
+    const seconds = time.getSeconds();
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    // Convert to 12-hour format
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
 
     return {
       hours,
       minutes,
-      digitalTime: `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`
+      seconds,
+      ampm,
+      digitalTime: `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} ${ampm}`
     };
   };
 
-  const { hours, minutes, digitalTime } = formatTime(time);
+  const { hours, minutes, digitalTime, ampm } = formatTime(time);
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center justify-center p-8">
@@ -35,17 +43,18 @@ const BinaryClock = () => {
         </h1>
 
         {/* Binary Time Display */}
-        <div className="mb-12 space-y-8">
-          {/* Hours */}
-          <div className="flex justify-center gap-8">
-            <BinaryDigit value={Math.floor(hours / 10)} />
-            <BinaryDigit value={hours % 10} />
+        <div className="mb-12 space-y-12">
+          {/* Hours with AM/PM */}
+          <div className="flex items-center justify-center gap-8">
+            <BinaryDigit value={hours} />
+            <div className="text-red-500 text-3xl font-mono font-bold">
+              {ampm}
+            </div>
           </div>
 
           {/* Minutes */}
-          <div className="flex justify-center gap-8">
-            <BinaryDigit value={Math.floor(minutes / 10)} />
-            <BinaryDigit value={minutes % 10} />
+          <div className="flex justify-center">
+            <BinaryDigit value={minutes} isMinute={true} />
           </div>
         </div>
 

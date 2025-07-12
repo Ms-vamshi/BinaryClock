@@ -3,31 +3,34 @@ import React from 'react';
 
 interface BinaryDigitProps {
   value: number;
+  isMinute?: boolean;
 }
 
-const BinaryDigit = ({ value }: BinaryDigitProps) => {
-  // Convert decimal to 4-bit binary
-  const binaryString = value.toString(2).padStart(4, '0');
-  const binaryArray = binaryString.split('').map(bit => bit === '1');
-
+const BinaryDigit = ({ value, isMinute = false }: BinaryDigitProps) => {
+  // For hours: 8, 4, 2, 1 (4 bits)
+  // For minutes: 32, 16, 8, 4, 2, 1 (6 bits)
+  const bitValues = isMinute ? [32, 16, 8, 4, 2, 1] : [8, 4, 2, 1];
+  
   return (
-    <div className="flex gap-2">
-      {binaryArray.map((isOne, index) => (
-        <div
-          key={index}
-          className={`
-            w-16 h-16 md:w-20 md:h-20 flex items-center justify-center
-            text-2xl md:text-3xl font-mono font-bold rounded-lg
-            transition-all duration-300
-            ${isOne 
-              ? 'text-red-500 bg-red-500/20 border-2 border-red-500 animate-pulse' 
-              : 'text-gray-500 bg-gray-900/50 border-2 border-gray-700'
-            }
-          `}
-        >
-          {8 >> index}
-        </div>
-      ))}
+    <div className="flex gap-4">
+      {bitValues.map((bitValue, index) => {
+        const isActive = (value & bitValue) !== 0;
+        return (
+          <div
+            key={index}
+            className={`
+              text-6xl md:text-7xl font-mono font-bold
+              transition-all duration-300
+              ${isActive 
+                ? 'text-red-500' 
+                : 'text-gray-700'
+              }
+            `}
+          >
+            {bitValue}
+          </div>
+        );
+      })}
     </div>
   );
 };
